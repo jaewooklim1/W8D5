@@ -6,7 +6,10 @@ class Clock {
         this.seconds = date.getSeconds();
 
         this.printTime();
-        this._tick();
+        let boundTime = this._tick.bind(this); //returns a new function that is perm bound to the passed arg
+
+        setInterval(boundTime, 1000);
+    
     }
 
     printTime() {
@@ -15,6 +18,22 @@ class Clock {
     }
 
     _tick() {
-        setInterval(this.printTime, 1000);
+
+        this.seconds += 1;
+        if (this.seconds === 60) {
+            this.seconds = 0;
+            this.minutes += 1;
+            if (this.minutes === 60) {
+                this.minutes = 0;
+                this.hours += 1;
+                if (this.hours === 24) {
+                    this.hours = 0;
+                }
+            }
+        }
+        console.clear();
+        this.printTime();
     }
 }
+
+const clock = new Clock();
